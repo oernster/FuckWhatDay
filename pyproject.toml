@@ -1,0 +1,10 @@
+# Formatting and lint settings for the Python tooling. FuckWhatDay itself is
+# Brainfuck; nothing here is packaged or installed.
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
