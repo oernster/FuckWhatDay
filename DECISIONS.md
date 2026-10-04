@@ -157,6 +157,21 @@ exhaustive run answers outright. Every supported date runs on every test
 run, in about half a minute, so "every supported date has been tested" is a
 claim the normal test command re-establishes.
 
+## The Windows exe: translated to C, not bundled with an interpreter
+
+A double clickable exe could have been made by bundling the Python
+interpreter and the program with PyInstaller. That would ship a whole
+Python runtime inside the exe to run eight instructions. Instead `tools/bf2c.py` translates each Brainfuck instruction
+into the matching C statement and gcc compiles the result: a 188 KB static
+exe that needs nothing installed. The translation is mechanical and
+generic (a structural test holds it to knowing nothing about FuckWhatDay),
+so the exe still runs the Brainfuck's arithmetic, now in machine code.
+
+Translated C is compiled by an optimising compiler, which could in
+principle change behaviour if the C relied on undefined behaviour. It does
+not: unsigned char arithmetic wraps by definition. The build still checks
+the finished exe against the oracle rather than trusting that argument.
+
 ## Optimisation: deferred
 
 The program has not been optimised for size or speed. Pointer travel to the

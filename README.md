@@ -68,6 +68,21 @@ into a good one.
 
 ## Running it
 
+As a Windows exe, built once from the Brainfuck (needs Python and
+MinGW-w64 gcc to build; the exe itself needs neither):
+
+```powershell
+python buildexe.py
+```
+```powershell
+"20261004" | .\dist\fuckwhatday.exe
+```
+
+The build translates each Brainfuck instruction into the equivalent C
+statement, compiles it and then checks the exe's answers against the oracle
+before calling the build good. `python buildexe.py --all` checks every
+supported date as well; that takes several minutes.
+
 With the interpreter in this repository (Python 3, standard library only):
 
 ```powershell
@@ -149,6 +164,8 @@ tell it a date; it tells you the day.
 |---|---|
 | Application | Brainfuck |
 | Generator, interpreters, oracle, tests | Python 3 standard library |
+| Windows exe | Brainfuck translated to C, built with MinGW-w64 gcc |
+| Icon generation (only when the icon changes) | Pillow |
 
 ## Licence
 

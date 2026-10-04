@@ -344,7 +344,18 @@ tools/program.py   --build-->   src/fuckwhatday.annotated.bf   --strip-->   src/
 - `src/fuckwhatday.bf` is the instruction stream, wrapped at 80 columns.
 
 Both files are committed, so the program can be read and run without
-Python. `python -m tools.build` regenerates both; `tests/test_source.py`
+Python.
+
+```
+src/fuckwhatday.bf   --tools/bf2c.py-->   build/fuckwhatday.c   --gcc-->   dist/fuckwhatday.exe
+```
+
+The Windows exe is the same program again. `tools/bf2c.py` replaces each
+run of identical instructions with the one C statement that does the same
+thing to an `unsigned char` tape, so the exe executes the Brainfuck's own
+steps rather than any calendar logic of its own. It does not check tape
+bounds; the program never leaves cells 0 to 30, which the interpreters
+(which do check) establish on every test run. `python -m tools.build` regenerates both; `tests/test_source.py`
 fails if either differs from what the generator produces.
 
 The generator never sees a date. It imports no `datetime`, `calendar`,

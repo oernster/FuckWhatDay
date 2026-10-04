@@ -40,7 +40,8 @@ FORBIDDEN_IN_GENERATOR = FORBIDDEN_EVERYWHERE | {
     "random",
 }
 GENERATOR_MODULES = ("bfasm.py", "program.py", "strip.py", "build.py")
-INTERPRETER_MODULES = ("interpreter.py", "fastbf.py")
+# Modules that execute or translate arbitrary Brainfuck.
+INTERPRETER_MODULES = ("interpreter.py", "fastbf.py", "bf2c.py")
 INTERPRETER_ALLOWED = {"__future__", "sys", "dataclasses", "tools.interpreter"}
 
 

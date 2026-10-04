@@ -13,9 +13,9 @@ $LASTEXITCODE
 output. The suite uses only the standard library's `unittest`; it also runs
 under pytest if you prefer, though nothing requires it.
 
-The whole suite (89 tests) took 92 seconds when measured on a desktop
-machine. Most of that is the exhaustive calendar test and the 3,000 random
-programs run on the boring interpreter.
+The whole suite (97 tests) took 97 seconds when measured on a desktop
+machine with gcc present. Most of that is the exhaustive calendar test and
+the 3,000 random programs run on the boring interpreter.
 
 ## The layers
 
@@ -166,6 +166,23 @@ A Brainfuck program has no clock, randomness, environment or file access;
 its only input is the byte stream. The structural tests in layer 8 check
 that the toolchain adds none.
 
+### 10. The Windows exe (`test_exe.py`)
+
+**Proves:** the exe `buildexe.py` produces (built fresh into a temporary
+directory, run as a real process) answers the specified and boundary dates,
+the impossible, out of range and malformed inputs from layer 6, every 211th
+supported date and the build's own smoke inputs exactly as the oracle does.
+Also checks the translator: every instruction has its C statement, runs are
+folded, the loop count is preserved and translation is deterministic.
+
+**Does not prove:** every date for the exe; one process per date takes
+several minutes, so that check is `python buildexe.py --all`, run by hand
+before a release. Skipped (and reported as skipped) when gcc is not on
+PATH.
+
+`tools/bf2c.py` sits under the same structural rule as the interpreters in
+layer 8: it may know nothing about FuckWhatDay.
+
 ## Guards proven by planting a violation
 
 A test that has never been seen to fail is not yet a guard. Each of these
@@ -177,6 +194,7 @@ was planted, observed to fail, then restored:
 | One `+` changed to `-` in the executable | reproducibility test |
 | `import socket` in `tools/strip.py` | network boundary and generator boundary tests |
 | `import datetime` in `tools/program.py` | generator boundary test |
+| The string `MONDAY` added to `tools/bf2c.py` | no application knowledge test |
 | The epoch weekday off by one | exhaustive test: all 73,049 dates wrong |
 | The "minus one day" constant set to zero | exhaustive test: all 73,049 dates wrong |
 | The leap rule replaced by "every fourth year" | exhaustive test: 307 answers wrong (1900-02-29 accepted, March to December 1900 shifted) |

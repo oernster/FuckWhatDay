@@ -5,9 +5,11 @@
 | Tool | What for | Where |
 |---|---|---|
 | Python 3 (developed and tested on 3.13) | the generator, both interpreters and the tests | python.org |
+| MinGW-w64 gcc and windres (tested with WinLibs, gcc on PATH) | building the Windows exe | `winget install BrechtSanders.WinLibs.POSIX.UCRT` |
+| Pillow | regenerating the icon, only when `assets/app-icon.png` changes | `python -m pip install pillow` |
 
-Nothing else. The tooling uses only the standard library; there is no
-`requirements.txt` because there is nothing to install.
+The generator, interpreters and tests use only the standard library. The
+exe test skips itself when gcc is not on PATH.
 
 Every command below is PowerShell, run from the repository root.
 
@@ -23,7 +25,38 @@ tools/build.py                 runs program then strip
 tools/interpreter.py           the boring reference interpreter
 tools/fastbf.py                the fast compiling interpreter
 tools/reference.py             the test oracle
+tools/bf2c.py                  Brainfuck to C, one statement per instruction run
+tools/genicons.py              master PNG to the committed .ico
+buildexe.py                    builds and checks dist/fuckwhatday.exe
+assets/fuckwhatday.ico         the exe icon (generated, committed)
 tests/                         see TESTING.md
+```
+
+## Building the exe
+
+```powershell
+python buildexe.py
+```
+
+In order, it:
+
+1. translates `src/fuckwhatday.bf` to `build/fuckwhatday.c` with
+   `tools/bf2c.py`
+2. compiles `assets/fuckwhatday.ico` into a resource with windres
+3. compiles and statically links `dist/fuckwhatday.exe` with gcc (`-O2
+   -static -s`), so it runs on Windows with nothing else installed
+4. runs the exe on 13 smoke inputs (specified dates, invalid dates,
+   malformed input, a CRLF line) and compares each answer with the oracle;
+   any mismatch fails the build with a non zero exit code
+
+`python buildexe.py --all` adds every supported date to step 4. One process
+per date makes that take several minutes; run it before a release.
+
+`build/` and `dist/` are ignored by git. To regenerate the icon after
+changing the master PNG:
+
+```powershell
+python -m tools.genicons
 ```
 
 ## Running the program
