@@ -8,6 +8,10 @@ No part of that calculation is delegated to a sensible programming language.
 
 FuckWhatDay exists because WhatDay already solved this problem sensibly.
 
+Try it in your browser at
+[oernster.github.io/FuckWhatDay](https://oernster.github.io/FuckWhatDay/demo.html):
+the page runs the real Brainfuck program on a small JavaScript interpreter.
+
 > **Commercial licences available.** FuckWhatDay is free software under the
 > GPL-3.0. A separately sold commercial licence covering the author's own
 > code is also offered; see

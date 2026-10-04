@@ -1,0 +1,122 @@
+[
+  {
+    "address": 0,
+    "name": "valid",
+    "role": "1 while the input is still acceptable; 0 once rejected"
+  },
+  {
+    "address": 1,
+    "name": "char",
+    "role": "the byte just read; zero between reads"
+  },
+  {
+    "address": 2,
+    "name": "digit0",
+    "role": "first year digit; moved into century then zero"
+  },
+  {
+    "address": 3,
+    "name": "digit1",
+    "role": "second year digit; moved into century then zero"
+  },
+  {
+    "address": 4,
+    "name": "digit2",
+    "role": "third year digit; moved into year then zero"
+  },
+  {
+    "address": 5,
+    "name": "digit3",
+    "role": "fourth year digit; moved into year then zero"
+  },
+  {
+    "address": 6,
+    "name": "digit4",
+    "role": "first month digit; moved into month then zero"
+  },
+  {
+    "address": 7,
+    "name": "digit5",
+    "role": "second month digit; moved into month then zero"
+  },
+  {
+    "address": 8,
+    "name": "digit6",
+    "role": "first day digit; moved into day then zero"
+  },
+  {
+    "address": 9,
+    "name": "digit7",
+    "role": "second day digit; moved into day then zero"
+  },
+  {
+    "address": 10,
+    "name": "century",
+    "role": "year div 100"
+  },
+  {
+    "address": 11,
+    "name": "year",
+    "role": "year mod 100"
+  },
+  {
+    "address": 12,
+    "name": "month",
+    "role": "month as entered"
+  },
+  {
+    "address": 13,
+    "name": "day",
+    "role": "day as entered"
+  },
+  {
+    "address": 14,
+    "name": "century_mod4",
+    "role": "century mod 4"
+  },
+  {
+    "address": 15,
+    "name": "century_leaps",
+    "role": "ceil of century over 4"
+  },
+  {
+    "address": 16,
+    "name": "year_mod4",
+    "role": "year mod 4"
+  },
+  {
+    "address": 17,
+    "name": "year_leaps",
+    "role": "ceil of year over 4"
+  },
+  {
+    "address": 18,
+    "name": "leap",
+    "role": "1 if the full year is a Gregorian leap year"
+  },
+  {
+    "address": 19,
+    "name": "month_length",
+    "role": "days in the entered month; 0 if no such month"
+  },
+  {
+    "address": 20,
+    "name": "month_offset",
+    "role": "sum of earlier month lengths each taken mod 7"
+  },
+  {
+    "address": 21,
+    "name": "sum",
+    "role": "weekday accumulator; zero after the final reduction"
+  },
+  {
+    "address": 22,
+    "name": "weekday",
+    "role": "0 is Monday through 6 Sunday; valid input only"
+  },
+  {
+    "address": 23,
+    "name": "out",
+    "role": "output workspace; zero between characters"
+  }
+]

@@ -104,6 +104,19 @@ class ShapeTests(unittest.TestCase):
         # need at least one instruction per date.
         self.assertLess(len(bf.instructions(source())), SUPPORTED_DATE_COUNT)
 
+    def test_documented_size_and_nesting_are_measured(self):
+        code = bf.instructions(source())
+        depth = deepest = 0
+        for ch in code:
+            depth += (ch == "[") - (ch == "]")
+            deepest = max(deepest, depth)
+        architecture = (ROOT / "ARCHITECTURE.md").read_text(encoding="utf-8")
+        decisions = (ROOT / "DECISIONS.md").read_text(encoding="utf-8")
+        size = f"{len(code):,} instructions"
+        self.assertIn(size, architecture)
+        self.assertIn(size, decisions)
+        self.assertIn(f"bracket nesting at\nmost {deepest} deep", architecture)
+
 
 class ToolingBoundaryTests(unittest.TestCase):
     def test_no_tool_can_reach_a_network_or_spawn_a_process(self):

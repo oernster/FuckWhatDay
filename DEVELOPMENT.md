@@ -27,10 +27,37 @@ tools/fastbf.py                the fast compiling interpreter
 tools/reference.py             the test oracle
 tools/bf2c.py                  Brainfuck to C, one statement per instruction run
 tools/genicons.py              master PNG to the committed .ico
+tools/site.py                  site/ to the pages under docs/
 buildexe.py                    builds and checks dist/fuckwhatday.exe
+site/                          the website's layout and page fragments
+docs/                          the published website (mostly generated)
 assets/fuckwhatday.ico         the exe icon (generated, committed)
 tests/                         see TESTING.md
 ```
+
+## The website
+
+The GitHub Pages site lives in `docs/` and is served from there (Settings,
+Pages, branch `main`, folder `/docs`). Most of it is generated:
+
+| File | Made by | Edit |
+|---|---|---|
+| `docs/*.html` | `tools/site.py`, from `site/layout.html` plus `site/pages/<page>.html` | the files under `site/` |
+| `docs/fuckwhatday.bf`, `docs/tape-map.json` | `tools/build.py` | never; they copy the program and its layout |
+| `docs/img/*.png` | `tools/genicons.py` | `assets/app-icon.png`, then rerun it |
+| `docs/bf.js`, `docs/site.js`, `docs/style.css` | hand written | directly |
+
+`python -m tools.build` regenerates everything generated. Page order,
+titles and the navigation come from `PAGES` in `tools/site.py`.
+
+To preview it, serve `docs/` over HTTP (the demo fetches the program, which
+browsers refuse for a page opened as a file):
+
+```powershell
+python -m http.server 8765 --directory docs
+```
+
+Then open `http://localhost:8765/`.
 
 ## Building the exe
 

@@ -1,0 +1,58 @@
+<section class="section page-head benchmarks">
+  <div class="wrap">
+    <h1>Benchmarks</h1>
+    <p class="section-lede">Time taken to find out what day 4 October 2026 is. Lower is better. Measured where it says measured.</p>
+    <div class="bars">
+      <div class="bar-row">
+        <span class="bar-label">FuckWhatDay exe, including starting the process</span>
+        <span class="bar"><span class="bar-fill fwd" style="--w: 1%"></span></span>
+        <span class="bar-value">about 10 ms, measured</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">FuckWhatDay on the boring Python interpreter</span>
+        <span class="bar"><span class="bar-fill fwd" style="--w: 3%"></span></span>
+        <span class="bar-value">about 40 ms, measured</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Looking at a calendar</span>
+        <span class="bar"><span class="bar-fill other" style="--w: 30%"></span></span>
+        <span class="bar-value">a second or so, estimated</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Asking a colleague</span>
+        <span class="bar"><span class="bar-fill other" style="--w: 70%"></span></span>
+        <span class="bar-value">varies with the colleague; not measured</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Explaining to that colleague why you wrote it in Brainfuck</span>
+        <span class="bar"><span class="bar-fill worst" style="--w: 100%"></span></span>
+        <span class="bar-value">still going</span>
+      </div>
+    </div>
+    <p class="footnote">FuckWhatDay is therefore faster than looking at a calendar, provided you were already in a terminal and had already built it.</p>
+  </div>
+</section>
+
+<section class="section how">
+  <div class="wrap">
+    <h2>How it works, for the auditors</h2>
+    <p class="section-lede">The joke is the implementation language. The engineering should not be a joke.</p>
+    <ol class="pipeline">
+      <li><strong>Read</strong> eight digits and a line feed, stopping at the first byte it dislikes.</li>
+      <li><strong>Assemble</strong> century, year, month and day, one byte each.</li>
+      <li><strong>Leap year</strong>: the full rule, computed from the century and the year.</li>
+      <li><strong>Walk the months</strong> once, finding the month's length and the days before it.</li>
+      <li><strong>Check the day</strong> fits the month. If not: INVALID, with feeling.</li>
+      <li><strong>Count</strong> from 1 January of year 0 (a Saturday), all arithmetic mod 7.</li>
+      <li><strong>Print</strong> one of seven words. Or the eighth.</li>
+    </ol>
+    <p>
+      Then it is checked against an independent reference on every one of the
+      73,049 supported dates, every time the tests run. The interpreters it
+      runs on are tested before they are trusted. The source is tested for
+      purity. The tape map is tested cell by cell. A claim is a structure, not
+      a sentence.
+    </p>
+    <p><a class="button ghost" href="https://github.com/oernster/FuckWhatDay/blob/main/ARCHITECTURE.md">Read ARCHITECTURE.md</a></p>
+  </div>
+</section>

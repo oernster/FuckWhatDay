@@ -1,0 +1,60 @@
+<section class="section page-head">
+  <div class="wrap">
+    <h1>The live demo</h1>
+    <p class="section-lede">
+      This is not a mock up. Your browser downloads the real program (a byte
+      for byte copy of <code>src/fuckwhatday.bf</code>) and runs it on a
+      small, boring Brainfuck interpreter. The JavaScript moves a pointer
+      left and right and adds one to things. It has no idea what a Tuesday is.
+    </p>
+
+    <div class="demo">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot amber"></span><span class="dot green"></span>
+          <span class="terminal-title">fuckwhatday.bf</span>
+        </div>
+        <form id="demo-form" class="terminal-body" autocomplete="off">
+          <label for="demo-input" class="prompt">DATE YYYYMMDD:</label>
+          <div class="input-row">
+            <input id="demo-input" name="date" inputmode="numeric" maxlength="16"
+                   placeholder="20261004" spellcheck="false">
+            <button id="demo-run" class="button primary" type="submit" disabled>Resolve</button>
+          </div>
+          <div class="try-row">
+            <span>Try:</span>
+            <button type="button" class="chip" data-try="20261004">20261004</button>
+            <button type="button" class="chip" data-try="20000229">20000229</button>
+            <button type="button" class="chip" data-try="19000229">19000229</button>
+            <button type="button" class="chip" data-try="20991231">20991231</button>
+            <button type="button" class="chip" data-try="2026-10-04">2026-10-04</button>
+            <button type="button" class="chip" data-try="tuesday">tuesday</button>
+            <button type="button" id="demo-today" class="chip chip-today">What day is it today?</button>
+          </div>
+          <p id="demo-result" class="result is-idle" role="status" aria-live="polite">Loading the program...</p>
+          <dl class="demo-stats">
+            <div><dt>Instructions executed</dt><dd id="demo-steps">0</dd></div>
+            <div><dt>Wall clock time</dt><dd id="demo-time">0 ms</dd></div>
+            <div><dt>Input bytes read</dt><dd id="demo-consumed">0</dd></div>
+            <div><dt>Input sent</dt><dd><code id="demo-echo">""</code></dd></div>
+          </dl>
+        </form>
+      </div>
+
+      <details class="tape">
+        <summary>Tape inspector: what the cells hold after the run</summary>
+        <p class="tape-note">
+          Every named cell from the tape map in ARCHITECTURE.md, read straight
+          off the interpreter's tape once the program stops. Watch
+          <code>leap</code> refuse to become 1 for 1900.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Cell</th><th>Name</th><th>Value</th><th>Holds</th></tr></thead>
+            <tbody id="tape-body"></tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>

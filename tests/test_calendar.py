@@ -9,29 +9,56 @@ model the boring interpreter defines.
 
 from __future__ import annotations
 
+import re
 import unittest
 
-from tests.support import run_boring, run_fast
+from tests.support import ROOT, run_boring, run_fast
 from tools import interpreter as bf
 from tools import reference
 
 SUPPORTED_DATE_COUNT = 73049  # 200 * 365 plus 49 leap days (1904 to 2096)
 BORING_SAMPLE_STRIDE = 211  # a prime, so the sample drifts through weekdays
 
+ARCHITECTURE = ROOT / "ARCHITECTURE.md"
+STEP_RANGE = re.compile(r"between ([\d,]+) and ([\d,]+) executed instructions")
+MAX_STEPS_CLAIM = re.compile(r'data-claim="max-steps">([\d,]+)<')
+SITE_SOURCES = (ROOT / "site" / "pages", ROOT / "docs")
+
+
+def _number(text: str) -> int:
+    return int(text.replace(",", ""))
+
 
 class ExhaustiveCalendarTests(unittest.TestCase):
     def test_every_supported_date_matches_the_oracle(self):
         checked = 0
         mismatches = []
+        steps = []
         for date in reference.supported_dates():
             data = reference.encode(date)
-            actual = run_fast(data).output
+            result = run_fast(data)
             expected = reference.expected_output(data)
-            if actual != expected:
-                mismatches.append((date.isoformat(), actual, expected))
+            if result.output != expected:
+                mismatches.append((date.isoformat(), result.output, expected))
+            steps.append(result.steps)
             checked += 1
         self.assertEqual(mismatches[:10], [])
         self.assertEqual(checked, SUPPORTED_DATE_COUNT)
+        self.assert_documented_step_counts(min(steps), max(steps))
+
+    def assert_documented_step_counts(self, fewest: int, most: int):
+        """The step counts quoted in the docs and on the site are measured."""
+        low, high = STEP_RANGE.search(ARCHITECTURE.read_text("utf-8")).groups()
+        self.assertEqual((_number(low), _number(high)), (fewest, most))
+        claims = [
+            (path.name, _number(found))
+            for folder in SITE_SOURCES
+            for path in sorted(folder.glob("*.html"))
+            for found in MAX_STEPS_CLAIM.findall(path.read_text("utf-8"))
+        ]
+        self.assertTrue(claims, "the site no longer quotes the maximum")
+        for name, claimed in claims:
+            self.assertEqual(claimed, most, name)
 
     def test_sample_agrees_exactly_with_the_boring_interpreter(self):
         dates = list(reference.supported_dates())[::BORING_SAMPLE_STRIDE]
