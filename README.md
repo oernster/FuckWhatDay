@@ -9,7 +9,7 @@ No part of that calculation is delegated to a sensible programming language.
 FuckWhatDay exists because WhatDay already solved this problem sensibly.
 
 Try it in your browser at
-[oernster.github.io/FuckWhatDay](https://ernster.dev/FuckWhatDay/demo.html):
+[ernster.dev/FuckWhatDay](https://ernster.dev/FuckWhatDay/demo.html):
 the page runs the real Brainfuck program on a small JavaScript interpreter.
 
 ![The live demo resolving 20261004 to SUNDAY in 430,593 Brainfuck instructions](docs/img/demo-screenshot.png)
