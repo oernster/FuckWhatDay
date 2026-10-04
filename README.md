@@ -66,16 +66,37 @@ Invalid dates, malformed input, missing terminators and empty input all
 print `INVALID`. The program never guesses, normalises or wraps a bad date
 into a good one.
 
-## Building the exe
+## Before you start: everything runs in a terminal
+
+FuckWhatDay is a command line program. Every command in this README is
+typed into a terminal; there is nothing to double click.
+
+- **Windows:** use **PowerShell**. Open the Start menu, type `PowerShell`
+  and press Enter (Windows Terminal running PowerShell works too). Every
+  block marked `powershell` below is written for it. Classic Command Prompt
+  (`cmd.exe`) is covered once, where it differs.
+- **macOS and Linux:** the exe is Windows only. Use the Python interpreter
+  from a bash or zsh terminal; see [Without the exe](#without-the-exe).
+
+Then move into the folder you cloned or unzipped FuckWhatDay into, for
+example:
+
+```powershell
+cd $HOME\Downloads\FuckWhatDay
+```
+
+All the commands below assume you are in that folder.
+
+## Building the exe (Windows, PowerShell)
 
 You need two things to build it. The exe you get needs neither.
 
 | Tool | Get it |
 |---|---|
 | Python 3 | python.org |
-| MinGW-w64 gcc (with windres) on PATH | `winget install BrechtSanders.WinLibs.POSIX.UCRT` |
+| MinGW-w64 gcc (with windres) on PATH | in PowerShell: `winget install BrechtSanders.WinLibs.POSIX.UCRT`, then open a new PowerShell window so PATH updates |
 
-From the repository root:
+In PowerShell, from the FuckWhatDay folder:
 
 ```powershell
 python buildexe.py
@@ -98,9 +119,11 @@ To check the exe against every supported date as well (several minutes):
 python buildexe.py --all
 ```
 
-## Using it
+## Using it (Windows, PowerShell)
 
-FuckWhatDay reads the date from standard input, so pipe it in:
+The exe is run from PowerShell, not by double clicking it. FuckWhatDay
+reads the date from standard input, so pipe it in. In PowerShell, from the
+FuckWhatDay folder:
 
 ```powershell
 "20261004" | .\dist\fuckwhatday.exe
@@ -110,7 +133,7 @@ FuckWhatDay reads the date from standard input, so pipe it in:
 SUNDAY
 ```
 
-Several dates at once:
+Several dates at once (PowerShell only):
 
 ```powershell
 "20000229", "19000229", "20991231" | ForEach-Object { "$_  " + ($_ | .\dist\fuckwhatday.exe) }
@@ -122,8 +145,9 @@ Several dates at once:
 20991231  THURSDAY
 ```
 
-From `cmd.exe`, leave no space before the pipe; `echo` would otherwise send
-the space as part of the date, which prints `INVALID`:
+If you use Command Prompt (`cmd.exe`) instead of PowerShell, the command is
+different. Leave no space before the pipe; `echo` would otherwise send the
+space as part of the date, which prints `INVALID`:
 
 ```bat
 echo 20261004| dist\fuckwhatday.exe
@@ -134,11 +158,22 @@ standard input.
 
 ### Without the exe
 
-With the interpreter in this repository (Python 3, standard library only):
+With the interpreter in this repository (Python 3, standard library only),
+from the FuckWhatDay folder. In PowerShell:
 
 ```powershell
 "20261004" | python tools/interpreter.py src/fuckwhatday.bf
 ```
+
+In a bash or zsh terminal:
+
+```bash
+echo 20261004 | python3 tools/interpreter.py src/fuckwhatday.bf
+```
+
+The bash form has been tested in Git Bash on Windows (as
+`python`, the name Python has there); it has not been tested on macOS or
+Linux.
 
 Or with any Brainfuck interpreter that meets the assumptions below.
 `src/fuckwhatday.bf` is the program; `src/fuckwhatday.annotated.bf` is the
@@ -153,6 +188,8 @@ same program with comments; it runs too.
   to read past the terminator; a read at end of input can only reject
 
 ## Running the tests
+
+In PowerShell, from the FuckWhatDay folder:
 
 ```powershell
 python -m unittest discover -s tests -t .
