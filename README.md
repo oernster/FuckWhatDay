@@ -9,13 +9,13 @@ No part of that calculation is delegated to a sensible programming language.
 FuckWhatDay exists because WhatDay already solved this problem sensibly.
 
 Try it in your browser at
-[oernster.github.io/FuckWhatDay](https://oernster.github.io/FuckWhatDay/demo.html):
+[oernster.github.io/FuckWhatDay](https://ernster.dev/FuckWhatDay/demo.html):
 the page runs the real Brainfuck program on a small JavaScript interpreter.
 
 ![The live demo resolving 20261004 to SUNDAY in 430,593 Brainfuck instructions](docs/img/demo-screenshot.png)
 
 Put a date in the link and the demo runs it as soon as the page loads:
-[demo.html?date=20000229](https://oernster.github.io/FuckWhatDay/demo.html?date=20000229).
+[demo.html?date=20000229](https://ernster.dev/FuckWhatDay/demo.html?date=20000229).
 
 > **Commercial licences available.** FuckWhatDay is free software under the
 > GPL-3.0. A separately sold commercial licence covering the author's own
