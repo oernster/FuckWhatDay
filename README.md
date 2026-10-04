@@ -66,22 +66,73 @@ Invalid dates, malformed input, missing terminators and empty input all
 print `INVALID`. The program never guesses, normalises or wraps a bad date
 into a good one.
 
-## Running it
+## Building the exe
 
-As a Windows exe, built once from the Brainfuck (needs Python and
-MinGW-w64 gcc to build; the exe itself needs neither):
+You need two things to build it. The exe you get needs neither.
+
+| Tool | Get it |
+|---|---|
+| Python 3 | python.org |
+| MinGW-w64 gcc (with windres) on PATH | `winget install BrechtSanders.WinLibs.POSIX.UCRT` |
+
+From the repository root:
 
 ```powershell
 python buildexe.py
 ```
+
+This takes a few seconds. It translates each Brainfuck instruction into the
+equivalent C statement, compiles that into `dist\fuckwhatday.exe` (a
+standalone file you can copy anywhere), then runs the new exe on a set of
+dates and invalid inputs and checks every answer against the reference
+implementation. A wrong answer fails the build. When it works, the last
+line is:
+
+```
+done: dist\fuckwhatday.exe
+```
+
+To check the exe against every supported date as well (several minutes):
+
+```powershell
+python buildexe.py --all
+```
+
+## Using it
+
+FuckWhatDay reads the date from standard input, so pipe it in:
+
 ```powershell
 "20261004" | .\dist\fuckwhatday.exe
 ```
 
-The build translates each Brainfuck instruction into the equivalent C
-statement, compiles it and then checks the exe's answers against the oracle
-before calling the build good. `python buildexe.py --all` checks every
-supported date as well; that takes several minutes.
+```
+SUNDAY
+```
+
+Several dates at once:
+
+```powershell
+"20000229", "19000229", "20991231" | ForEach-Object { "$_  " + ($_ | .\dist\fuckwhatday.exe) }
+```
+
+```
+20000229  TUESDAY
+19000229  INVALID
+20991231  THURSDAY
+```
+
+From `cmd.exe`, leave no space before the pipe; `echo` would otherwise send
+the space as part of the date, which prints `INVALID`:
+
+```bat
+echo 20261004| dist\fuckwhatday.exe
+```
+
+Run with nothing piped in, it waits for input like any program that reads
+standard input.
+
+### Without the exe
 
 With the interpreter in this repository (Python 3, standard library only):
 
