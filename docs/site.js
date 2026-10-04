@@ -130,6 +130,12 @@
         buildTapeTable();
         $("demo-run").disabled = false;
         setResult("Ready. Enter a date as YYYYMMDD.", "is-idle");
+        // demo.html?date=20261004 runs that date straight away.
+        var requested = new URLSearchParams(location.search).get("date");
+        if (requested !== null) {
+          $("demo-input").value = requested;
+          runDate(requested);
+        }
       })
       .catch(function (error) {
         if (!hasDemo()) return;

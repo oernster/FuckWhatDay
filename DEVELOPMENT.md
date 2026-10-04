@@ -59,6 +59,11 @@ python -m http.server 8765 --directory docs
 
 Then open `http://localhost:8765/`.
 
+`demo.html?date=YYYYMMDD` runs that date as soon as the program loads.
+`docs/img/demo-screenshot.png`, shown in the README, is
+`demo.html?date=20261004` captured at 1280 by 760 in dark mode once the
+result appeared. Retake it if the demo page changes.
+
 ## Building the exe
 
 ```powershell
